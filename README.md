@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/aptible/aptible-rails.png?branch=master)](https://travis-ci.org/aptible/aptible-rails)
 [![Dependency Status](https://gemnasium.com/aptible/aptible-rails.png)](https://gemnasium.com/aptible/aptible-rails)
 
-TODO: Add description.
+Rails helpers for Aptible service applications.
 
 ## Installation
 
