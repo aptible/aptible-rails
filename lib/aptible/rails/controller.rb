@@ -11,11 +11,11 @@ module Aptible
       end
 
       def auth
-        @auth ||= Aptible::Auth::Client.new(token: service_token).get
+        @auth ||= Aptible::Auth.new(token: service_token).get
       end
 
       def api
-        @api ||= Aptible::Api::Client.new(token: service_token).get
+        @api ||= Aptible::Api.new(token: service_token).get
       end
 
       def current_aptible_user
