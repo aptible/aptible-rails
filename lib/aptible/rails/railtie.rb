@@ -8,7 +8,13 @@ module Aptible
         require 'aptible/auth'
 
         Fridge.configure do |config|
-          config.public_key = Aptible::Auth.public_key unless ::Rails.env.test?
+          begin
+            unless ::Rails.env.test?
+              config.public_key = Aptible::Auth.public_key
+            end
+          rescue
+            ::Rails.logger.warn 'Could not retrieve auth server public key'
+          end
         end
       end
 
