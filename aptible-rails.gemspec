@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.version       = Aptible::Rails::VERSION
   spec.authors       = ['Frank Macreery']
   spec.email         = ['frank@macreery.com']
-  spec.description   = %q{Rails helpers for Aptible service applications}
-  spec.summary       = %q{Rails helpers for Aptible service applications}
+  spec.description   = %q(Rails helpers for Aptible service applications)
+  spec.summary       = %q(Rails helpers for Aptible service applications)
   spec.homepage      = 'https://github.com/aptible/aptible-rails'
   spec.license       = 'MIT'
 
