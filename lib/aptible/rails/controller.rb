@@ -7,7 +7,8 @@ module Aptible
       extend ActiveSupport::Concern
 
       included do
-        helper_method :auth, :api, :current_aptible_user
+        helper_method :auth, :api, :current_aptible_user,
+                      :current_organization
       end
 
       def auth
@@ -22,6 +23,10 @@ module Aptible
         @current_user ||= auth.find_by_url(session_subject)
       rescue
         clear_session_cookie
+      end
+
+      def current_organization
+        @current_organization ||= auth.organizations.first
       end
 
       def service_token
