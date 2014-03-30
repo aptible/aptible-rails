@@ -1,16 +1,16 @@
 module Aptible
   module Rails
     module RoutesHelper
-      def main_url
+      def marketing_url
         'https://www.aptible.com'
       end
 
       def about_url
-        main_url + '/about'
+        marketing_url + '/about'
       end
 
       def audits_url
-        main_url + '/stressfree'
+        marketing_url + '/stressfree'
       end
 
       # Tumblr doesn't support HTTPS w/ our own domain
@@ -23,7 +23,7 @@ module Aptible
       end
 
       def contact_url
-        main_url + '/contact'
+        marketing_url + '/contact'
       end
 
       def dashboard_url
@@ -31,15 +31,27 @@ module Aptible
       end
 
       def docs_url
-        main_url + '/docs'
+        marketing_url + '/docs'
+      end
+
+      def edit_organization_url
+        ENV['APTIBLE_DASHBOARD_ROOT_URL'] + '/organization'
+      end
+
+      def edit_user_url
+        ENV['APTIBLE_DASHBOARD_ROOT_URL'] + '/settings'
       end
 
       def enterprise_url
-        main_url + '/enterprise'
+        marketing_url + '/enterprise'
       end
 
       def legal_url
-        main_url + '/legal'
+        marketing_url + '/legal'
+      end
+
+      def logout_url
+        ENV['APTIBLE_DASHBOARD_ROOT_URL'] + '/logout'
       end
 
       def policy_url
@@ -47,15 +59,15 @@ module Aptible
       end
 
       def pricing_url
-        main_url + '/pricing'
+        marketing_url + '/pricing'
       end
 
       def privacy_url
-        main_url + '/privacy'
+        marketing_url + '/privacy'
       end
 
       def security_url
-        main_url + '/privacy'
+        marketing_url + '/security'
       end
 
       # Groove doesn't support HTTPS w/ our own domain
@@ -77,11 +89,11 @@ module Aptible
       end
 
       def terms_url
-        main_url + '/terms'
+        marketing_url + '/terms'
       end
 
       def training_url
-        main_url + '/training'
+        marketing_url + '/training'
       end
     end
   end
