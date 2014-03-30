@@ -10,7 +10,7 @@ module Aptible
     with_configuration do
       # Where users will be redirected on
       has :login_url, classes: [String],
-                      default: ENV['APTIBLE_DASHBOARD_ROOT_URL'] + '/login'
+                      default: "#{ENV['APTIBLE_DASHBOARD_ROOT_URL']}/login"
       has :client_id, classes: [String, NilClass],
                       default: ENV['CLIENT_ID']
       has :client_secret, classes: [String, NilClass],
