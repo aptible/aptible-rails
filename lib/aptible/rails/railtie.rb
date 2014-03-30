@@ -14,7 +14,7 @@ module Aptible
               config.public_key = Aptible::Auth.public_key
             end
           rescue
-            ::Rails.logger.warn 'Could not retrieve auth server public key'
+            raise 'Could not retrieve auth server public key'
           end
         end
       end
