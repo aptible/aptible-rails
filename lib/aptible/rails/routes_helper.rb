@@ -72,9 +72,9 @@ module Aptible
         ENV['APTIBLE_RISK_ROOT_URL']
       end
 
-      # def roles_url
-      #   ENV['APTIBLE_DASHBOARD_ROOT_URL'] + '/roles'
-      # end
+      def roles_url
+        ENV['APTIBLE_DASHBOARD_ROOT_URL'] + '/roles'
+      end
 
       def terms_url
         main_url + '/terms'
