@@ -20,7 +20,7 @@ module Aptible
       end
 
       def current_aptible_user
-        @current_user ||= auth.find_by_url(session_subject)
+        @current_user ||= auth.find_by_url(aptible_subject)
       rescue
         clear_session_cookie
       end
@@ -30,12 +30,20 @@ module Aptible
       end
 
       def service_token
-        return unless session_token && session_token.session
-        @service_token ||= service_token_for(session_token)
+        return unless aptible_token && aptible_token.session
+        @service_token ||= service_token_for(aptible_token)
       end
 
       def aptible_login_url
         Aptible::Rails.configuration.login_url
+      end
+
+      def aptible_subject
+        token_subject || session_subject
+      end
+
+      def aptible_token
+        current_token || session_token
       end
 
       # before_action :authenticate_user
