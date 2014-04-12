@@ -10,10 +10,10 @@ module Aptible
                                  'https://dashboard.aptible.com'
     default_marketing_root_url = ENV['APTIBLE_MARKETING_ROOT_URL'] ||
                                  'https://www.aptible.com'
+    default_policy_root_url = ENV['APTIBLE_POLICY_ROOT_URL'] ||
+                              'https://policy.aptible.com'
     default_risk_root_url = ENV['APTIBLE_RISK_ROOT_URL'] ||
                             'https://risk.aptible.com'
-    default_policy_root_url = ENV['APTIBLE_policy_ROOT_URL'] ||
-                              'https://policy.aptible.com'
 
     with_configuration do
       # Where users will be redirected on

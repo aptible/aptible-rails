@@ -34,10 +34,12 @@ module Aptible
         register_url :legal_url, aptible_config.marketing_root_url + '/legal'
         register_url :logout_url, aptible_config.dashboard_root_url + '/logout'
         register_url :marketing_url, aptible_config.marketing_root_url
+        register_url :policy_url, aptible_config.policy_root_url
         register_url :pricing_url,
                      aptible_config.marketing_root_url + '/pricing'
         register_url :privacy_url,
                      aptible_config.marketing_root_url + '/privacy'
+        register_url :risk_url, aptible_config.risk_root_url
         register_url :roles_url, aptible_config.dashboard_root_url + '/roles'
         register_url :security_url,
                      aptible_config.marketing_root_url + '/security'
