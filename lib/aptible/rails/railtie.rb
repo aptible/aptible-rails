@@ -1,5 +1,5 @@
 require 'aptible/rails/controller'
-require 'aptible/rails/routes_helper'
+require 'aptible/rails/url_helper'
 
 module Aptible
   module Rails
@@ -24,7 +24,7 @@ module Aptible
       end
 
       initializer 'aptible.rails.routes_helper' do
-        ApplicationHelper.send :include, Aptible::Rails::RoutesHelper
+        ActionController::Base.send :include, Aptible::Rails::UrlHelper
       end
     end
   end
