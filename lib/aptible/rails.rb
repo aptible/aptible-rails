@@ -14,6 +14,8 @@ module Aptible
                               'https://policy.aptible.com'
     default_risk_root_url = ENV['APTIBLE_RISK_ROOT_URL'] ||
                             'https://risk.aptible.com'
+    default_security_root_url = ENV['APTIBLE_SECURITY_ROOT_URL'] ||
+                            'https://security.aptible.com'
 
     with_configuration do
       # Where users will be redirected on
@@ -31,6 +33,8 @@ module Aptible
                             default: default_policy_root_url
       has :risk_root_url, classes: [String],
                           default: default_risk_root_url
+      has :security_root_url, classes: [String],
+                              default: default_security_root_url
     end
   end
 end

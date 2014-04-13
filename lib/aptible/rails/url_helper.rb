@@ -41,7 +41,8 @@ module Aptible
                      aptible_config.marketing_root_url + '/privacy'
         register_url :risk_url, aptible_config.risk_root_url
         register_url :roles_url, aptible_config.dashboard_root_url + '/roles'
-        register_url :security_url,
+        register_url :security_url, aptible_config.security_root_url
+        register_url :security_marketing_url,
                      aptible_config.marketing_root_url + '/security'
         # Statuspage.io requires a business-tier plan for SSL
         register_url :status_url, 'http://status.aptible.com/'
