@@ -47,7 +47,7 @@ module Aptible
         # Statuspage.io requires a business-tier plan for SSL
         register_url :status_url, 'http://status.aptible.com/'
         # Groove doesn't support HTTPS w/ our own domain
-        register_url :support_url, 'http://help.aptible.com'
+        register_url :support_url, 'http://support.aptible.com'
         register_url :terms_url, aptible_config.marketing_root_url + '/terms'
         register_url :training_url,
                      aptible_config.marketing_root_url + '/training'
