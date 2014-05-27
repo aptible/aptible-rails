@@ -27,7 +27,8 @@ module Aptible
 
       def current_organization
         session[:organization_url] ||= auth.organizations.first.href
-        Aptible::Auth::Organization.find_by_url(session[:organization_url], token: service_token)
+        Aptible::Auth::Organization.find_by_url(session[:organization_url],
+                                                token: service_token)
       end
 
       def service_token
