@@ -26,13 +26,8 @@ module Aptible
       end
 
       def current_organization
-        if session[:organization_url]
-          Aptible::Auth::Organization.find_by_url(session[:organization_url],
-                                                  token: service_token)
-        else
-          session[:organization_url] = auth.organization.first.href
-          auth.organization.first
-        end
+        session[:organization_url] ||= auth.organizations.first.href
+        Aptible::Auth::Organization.find_by_url(session[:organization_url], token: service_token)
       end
 
       def service_token
