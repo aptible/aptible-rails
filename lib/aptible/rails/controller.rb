@@ -26,7 +26,11 @@ module Aptible
       end
 
       def current_organization
-        @current_organization ||= auth.organizations.first
+        if session[:organization_id]
+          Aptible::Auth::Organization.find(session[:organization_id], token: service_token)
+        else
+          auth.organization.first
+        end
       end
 
       def service_token
