@@ -8,7 +8,8 @@ module Aptible
 
       included do
         helper_method :auth, :api, :current_aptible_user,
-                      :current_organization
+                      :current_organization, :has_subscription?,
+                      :email_verified?, :has_completed_account?
       end
 
       def auth
@@ -29,6 +30,23 @@ module Aptible
         session[:organization_url] ||= auth.organizations.first.href
         url = [session[:organization_url], token: service_token]
         @current_organization ||= Aptible::Auth::Organization.find_by_url(*url)
+      end
+
+      def has_organization_account?
+        current_organization && current_organization.accounts.any?
+      end
+
+      def has_subscription?
+        @has_subscription ||= has_organization_account? &&
+        current_organization.accounts.any?(&:has_subscription?)
+      end
+
+      def email_verified?
+        current_aptible_user && current_aptible_user.verified?
+      end
+
+      def has_completed_account?
+        has_organization_account? && has_subscription? && email_verified?
       end
 
       def service_token
