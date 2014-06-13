@@ -8,8 +8,9 @@ module Aptible
 
       included do
         helper_method :auth, :api, :current_aptible_user,
-                      :current_organization, :has_subscription?,
-                      :email_verified?, :has_completed_account?
+                      :current_organization, :subscribed?,
+                      :has_acccount?, :email_verified?,
+                      :subscribed_and_verified?
       end
 
       def auth
@@ -34,12 +35,14 @@ module Aptible
         false
       end
 
-      def has_organization_account?
+      # rubocop:disable PredicateName
+      def has_account?
         current_organization && current_organization.accounts.any?
       end
+      # rubocop:enable PredicateName
 
-      def has_subscription?
-        @has_subscription ||= has_organization_account? &&
+      def subscribed?
+        @has_subscription ||= has_account? &&
         current_organization.accounts.any?(&:has_subscription?)
       end
 
@@ -47,8 +50,8 @@ module Aptible
         current_aptible_user && current_aptible_user.verified?
       end
 
-      def has_completed_account?
-        has_organization_account? && has_subscription? && email_verified?
+      def subscribed_and_verified?
+        has_account? && subscribed? && email_verified?
       end
 
       def service_token
