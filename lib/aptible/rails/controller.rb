@@ -8,7 +8,9 @@ module Aptible
 
       included do
         helper_method :auth, :api, :current_aptible_user,
-                      :current_organization
+                      :current_organization, :subscribed?,
+                      :has_acccount?, :email_verified?,
+                      :subscribed_and_verified?
       end
 
       def auth
@@ -29,6 +31,27 @@ module Aptible
         session[:organization_url] ||= auth.organizations.first.href
         url = [session[:organization_url], token: service_token]
         @current_organization ||= Aptible::Auth::Organization.find_by_url(*url)
+      rescue
+        false
+      end
+
+      # rubocop:disable PredicateName
+      def has_account?
+        current_organization && current_organization.accounts.any?
+      end
+      # rubocop:enable PredicateName
+
+      def subscribed?
+        @has_subscription ||= has_account? &&
+        current_organization.accounts.any?(&:has_subscription?)
+      end
+
+      def email_verified?
+        current_aptible_user && current_aptible_user.verified?
+      end
+
+      def subscribed_and_verified?
+        has_account? && subscribed? && email_verified?
       end
 
       def service_token
