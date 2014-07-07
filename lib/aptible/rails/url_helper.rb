@@ -15,15 +15,22 @@ module Aptible
 
         register_url :about_url,
                      aptible_config.marketing_root_url + '/about'
+        register_url :apps_url,
+                     aptible_config.dashboard_root_url + '/apps'
         register_url :audits_url,
                      aptible_config.marketing_root_url + '/stressfree'
+
         # Tumblr doesn't support HTTPS w/ our own domain
         register_url :blog_url, 'http://blog.aptible.com'
         register_url :compliance_url,
                      aptible_config.dashboard_root_url + '/compliance'
+        register_url :contact_support_url,
+                     aptible_config.marketing_root_url + '/support'
         register_url :contact_url,
                      aptible_config.marketing_root_url + '/contact'
         register_url :dashboard_url, aptible_config.dashboard_root_url
+        register_url :databases_url,
+                     aptible_config.dashboard_root_url + '/databases'
         register_url :docs_url, aptible_config.marketing_root_url + '/docs'
         register_url :edit_organization_url,
                      aptible_config.dashboard_root_url + '/organization'
@@ -34,6 +41,8 @@ module Aptible
         register_url :legal_url, aptible_config.marketing_root_url + '/legal'
         register_url :logout_url, aptible_config.dashboard_root_url + '/logout'
         register_url :marketing_url, aptible_config.marketing_root_url
+        register_url :organizations_url,
+                     aptible_config.dashboard_root_url + '/organizations'
         register_url :policy_url, aptible_config.policy_root_url
         register_url :pricing_url,
                      aptible_config.marketing_root_url + '/pricing'
