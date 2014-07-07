@@ -48,6 +48,9 @@ module Aptible
                      aptible_config.marketing_root_url + '/pricing'
         register_url :privacy_url,
                      aptible_config.marketing_root_url + '/privacy'
+        register_url :responsible_disclosure_url,
+                     aptible_config.marketing_root_url +
+                     '/legal/responsible_disclosure.html'
         register_url :risk_url, aptible_config.risk_root_url
         register_url :roles_url, aptible_config.dashboard_root_url + '/roles'
         register_url :security_url, aptible_config.security_root_url
