@@ -5,10 +5,7 @@ module Aptible
 
       included do
         def self.register_url(name, url)
-          define_method(name) do |params = false|
-            url.gsub!(':id', params[:id]) if params && url.include?(':id')
-            url
-          end
+          define_method(name) { url }
           helper_method name
         end
 
@@ -45,8 +42,6 @@ module Aptible
         register_url :marketing_url, aptible_config.marketing_root_url
         register_url :organizations_url,
                      aptible_config.dashboard_root_url + '/organizations'
-        register_url :organization_url,
-                     aptible_config.dashboard_root_url + '/organizations/:id'
         register_url :policy_url, aptible_config.policy_root_url
         register_url :pricing_url,
                      aptible_config.marketing_root_url + '/pricing'
@@ -67,8 +62,6 @@ module Aptible
         register_url :terms_url, aptible_config.marketing_root_url + '/terms'
         register_url :training_url,
                      aptible_config.marketing_root_url + '/training'
-        register_url :user_url,
-                     aptible_config.dashboard_root_url + '/users/:id'
       end
     end
   end
