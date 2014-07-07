@@ -5,8 +5,8 @@ module Aptible
 
       included do
         def self.register_url(name, url)
-          define_method(name) do |params|
-            url.gsub!(':id', params.id) if params && url.include?(':id')
+          define_method(name) do |params = false|
+            url.gsub!(':id', params[:id]) if params && url.include?(':id')
             url
           end
           helper_method name
