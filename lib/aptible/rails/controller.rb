@@ -108,7 +108,7 @@ module Aptible
       end
 
       def organization_url(id)
-        "#{dashboard_url}/organization/#{id}"
+        "#{dashboard_url}/organizations/#{id}"
       end
 
       def user_url(id = current_aptible_user.id)
