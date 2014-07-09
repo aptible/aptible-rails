@@ -19,7 +19,6 @@ module Aptible
                      aptible_config.dashboard_root_url + '/apps'
         register_url :audits_url,
                      aptible_config.marketing_root_url + '/stressfree'
-
         # Tumblr doesn't support HTTPS w/ our own domain
         register_url :blog_url, 'http://blog.aptible.com'
         register_url :compliance_url,

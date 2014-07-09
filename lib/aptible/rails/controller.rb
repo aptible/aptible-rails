@@ -8,9 +8,9 @@ module Aptible
 
       included do
         helper_method :auth, :api, :current_aptible_user,
-                      :current_organization, :subscribed?,
-                      :has_acccount?, :email_verified?,
-                      :subscribed_and_verified?
+                      :current_organization, :subscribed?, :has_acccount?,
+                      :email_verified?, :subscribed_and_verified?, :user_url,
+                      :organization_url
       end
 
       def auth
@@ -105,6 +105,14 @@ module Aptible
         ).access_token
       rescue
         token.serialize
+      end
+
+      def organization_url(id)
+        "#{dashboard_url}/organizations/#{id}"
+      end
+
+      def user_url(id = current_aptible_user.id)
+        "#{dashboard_url}/users/#{id}"
       end
     end
   end
