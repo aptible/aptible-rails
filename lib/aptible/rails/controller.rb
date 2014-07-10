@@ -22,9 +22,11 @@ module Aptible
       end
 
       def current_aptible_user
+        return unless aptible_subject
         @current_user ||= auth.find_by_url(aptible_subject)
-      rescue
+      rescue => e
         clear_session_cookie
+        raise e
       end
 
       def current_organization
@@ -32,7 +34,7 @@ module Aptible
         url = [session[:organization_url], token: service_token]
         @current_organization ||= Aptible::Auth::Organization.find_by_url(*url)
       rescue
-        false
+        nil
       end
 
       # rubocop:disable PredicateName
@@ -86,7 +88,7 @@ module Aptible
         if Fridge::AccessToken.new(service_token).valid?
           service_token
         else
-          fetch_service_token(token, force: true)
+          fetch_service_token(token, force: true) || token
         end
       end
 
@@ -103,8 +105,12 @@ module Aptible
           client_secret: Aptible::Rails.configuration.client_secret,
           subject: token.serialize
         ).access_token
-      rescue
-        token.serialize
+      rescue OAuth2::Error => e
+        if e.code == 'unauthorized'
+          nil
+        else
+          fail 'Could not swap session token, check Client#privileged?'
+        end
       end
 
       def organization_url(id)
