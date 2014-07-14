@@ -65,6 +65,7 @@ module Aptible
         end
       end
 
+      # rubocop:disable MethodLength
       def swap_session_token(session_token)
         Aptible::Auth::Token.create(
           client_id: Aptible::Rails.configuration.client_id,
@@ -75,9 +76,10 @@ module Aptible
         if e.code == 'unauthorized'
           nil
         else
-          fail 'Could not swap session token, check Client#privileged?'
+          raise 'Could not swap session token, check Client#privileged?'
         end
       end
+      # rubocop:enable MethodLength
 
       def organization_url(id)
         "#{dashboard_url}/organizations/#{id}"
