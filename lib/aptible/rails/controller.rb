@@ -96,6 +96,10 @@ module Aptible
       def user_url(id = current_user.id)
         "#{dashboard_url}/users/#{id}"
       end
+
+      def session_cache
+        SessionCache.new(session: session_token.session)
+      end
     end
   end
 end
