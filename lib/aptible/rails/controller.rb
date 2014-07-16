@@ -9,8 +9,6 @@ module Aptible
       included do
         helper_method :current_user, :current_organization, :user_url,
                       :organization_url
-
-        before_action :ensure_auth_key
       end
 
       def current_user
@@ -46,6 +44,7 @@ module Aptible
         redirect_to aptible_login_url unless service_token
       end
 
+      # before_action :ensure_auth_key
       def ensure_auth_key
         return if Fridge.configuration.public_key
         Fridge.configure do |config|
