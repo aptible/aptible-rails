@@ -9,6 +9,8 @@ module Aptible
       included do
         helper_method :current_user, :current_organization, :user_url,
                       :organization_url
+
+        before_action :ensure_auth_key
       end
 
       def current_user
@@ -42,6 +44,13 @@ module Aptible
       # before_action :ensure_service_token
       def ensure_service_token
         redirect_to aptible_login_url unless service_token
+      end
+
+      def ensure_auth_key
+        return if Fridge.configuration.public_key
+        Fridge.configure do |config|
+          config.public_key = Aptible::Auth.public_key unless ::Rails.env.test?
+        end
       end
 
       def service_token
