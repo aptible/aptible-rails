@@ -7,73 +7,36 @@ module Aptible
       extend ActiveSupport::Concern
 
       included do
-        helper_method :auth, :api, :current_aptible_user,
-                      :current_organization, :subscribed?, :has_acccount?,
-                      :email_verified?, :subscribed_and_verified?, :user_url,
+        helper_method :current_user, :current_organization, :user_url,
                       :organization_url
       end
 
-      def auth
-        @auth ||= Aptible::Auth::Agent.new(token: service_token).get
-      end
-
-      def api
-        @api ||= Aptible::Api::Agent.new(token: service_token).get
-      end
-
-      def current_aptible_user
-        @current_user ||= auth.find_by_url(aptible_subject)
-      rescue
+      def current_user
+        return unless current_user_url
+        @current_user ||= Aptible::Auth::User.find_by_url(current_user_url,
+                                                          token: session_token)
+      rescue => e
         clear_session_cookie
+        raise e
       end
 
       def current_organization
-        session[:organization_url] ||= auth.organizations.first.href
+        session[:organization_url] ||= Aptible::Auth::Organization.all(
+          token: session_token
+        ).first.href
         url = [session[:organization_url], token: service_token]
         @current_organization ||= Aptible::Auth::Organization.find_by_url(*url)
       rescue
-        false
+        nil
       end
 
-      # rubocop:disable PredicateName
-      def has_account?
-        current_organization && current_organization.accounts.any?
-      end
-      # rubocop:enable PredicateName
-
-      def subscribed?
-        @has_subscription ||= has_account? &&
-        current_organization.accounts.any?(&:has_subscription?)
-      end
-
-      def email_verified?
-        current_aptible_user && current_aptible_user.verified?
-      end
-
-      def subscribed_and_verified?
-        has_account? && subscribed? && email_verified?
-      end
-
-      def service_token
-        return unless aptible_token && aptible_token.session
-        @service_token ||= service_token_for(aptible_token)
-      end
-
-      def aptible_login_url
-        Aptible::Rails.configuration.login_url
-      end
-
-      def aptible_subject
+      def current_user_url
         token_subject || session_subject
       end
 
-      def aptible_token
-        current_token || session_token
-      end
-
       # before_action :authenticate_user
-      def authenticate_aptible_user
-        redirect_to aptible_login_url unless current_aptible_user
+      def authenticate_user
+        redirect_to Aptible::Rails.configuration.login_url unless current_user
       end
 
       # before_action :ensure_service_token
@@ -81,37 +44,56 @@ module Aptible
         redirect_to aptible_login_url unless service_token
       end
 
-      def service_token_for(token)
-        service_token = fetch_service_token(token)
+      # before_action :ensure_auth_key
+      def ensure_auth_key
+        return if Fridge.configuration.public_key
+        Fridge.configure do |config|
+          config.public_key = Aptible::Auth.public_key unless ::Rails.env.test?
+        end
+      end
+
+      def service_token
+        return unless session_token && session_token.session
+        return @service_token if @service_token
+
+        @service_token = cached_service_token(session_token)
         if Fridge::AccessToken.new(service_token).valid?
-          service_token
+          @service_token
         else
-          fetch_service_token(token, force: true)
+          @service_token = cached_service_token(session_token,
+                                                force: true) || session_token
         end
       end
 
-      def fetch_service_token(token, options = {})
-        fail 'Token must be a service token' unless token.session
-        ::Rails.cache.fetch "service_token:#{token.session}", options do
-          swap_session_token(token)
+      def cached_service_token(session_token, options = {})
+        fail 'Token must be a service token' unless session_token.session
+        cache_key = "service_token:#{session_token.session}"
+        ::Rails.cache.fetch(cache_key, options) do
+          swap_session_token(session_token)
         end
       end
 
-      def swap_session_token(token)
+      # rubocop:disable MethodLength
+      def swap_session_token(session_token)
         Aptible::Auth::Token.create(
           client_id: Aptible::Rails.configuration.client_id,
           client_secret: Aptible::Rails.configuration.client_secret,
-          subject: token.serialize
+          subject: session_token.serialize
         ).access_token
-      rescue
-        token.serialize
+      rescue OAuth2::Error => e
+        if e.code == 'unauthorized'
+          nil
+        else
+          raise 'Could not swap session token, check Client#privileged?'
+        end
       end
+      # rubocop:enable MethodLength
 
       def organization_url(id)
         "#{dashboard_url}/organizations/#{id}"
       end
 
-      def user_url(id = current_aptible_user.id)
+      def user_url(id = current_user.id)
         "#{dashboard_url}/users/#{id}"
       end
     end
