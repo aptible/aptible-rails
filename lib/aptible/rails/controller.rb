@@ -8,7 +8,7 @@ module Aptible
 
       included do
         helper_method :current_user, :current_organization, :user_url,
-                      :organization_url
+                      :organization_url, :session_cache
       end
 
       def current_user
