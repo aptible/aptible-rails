@@ -8,7 +8,7 @@ module Aptible
 
       included do
         helper_method :current_user, :current_organization, :user_url,
-                      :organization_url, :session_cache
+                      :organization_url
       end
 
       def current_user
@@ -95,10 +95,6 @@ module Aptible
 
       def user_url(id = current_user.id)
         "#{dashboard_url}/users/#{id}"
-      end
-
-      def session_cache
-        SessionCache.new(session: session_token.session)
       end
     end
   end

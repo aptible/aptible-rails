@@ -1,4 +1,3 @@
-require 'aptible/rails/session_cache'
 require 'aptible/rails/controller'
 require 'aptible/rails/url_helper'
 require 'aptible/rails/view_helper'
