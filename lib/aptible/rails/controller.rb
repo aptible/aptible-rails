@@ -57,7 +57,7 @@ module Aptible
         return @service_token if @service_token
 
         @service_token = cached_service_token(session_token)
-        if Fridge::AccessToken.new(service_token).valid?
+        if Fridge::AccessToken.new(@service_token).valid?
           @service_token
         else
           @service_token = cached_service_token(session_token,
