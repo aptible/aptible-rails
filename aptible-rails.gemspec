@@ -22,7 +22,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'gem_config'
   spec.add_dependency 'aptible-auth', '>= 0.5.0'
   spec.add_dependency 'aptible-api', '>= 0.5.0'
+  spec.add_dependency 'aptible-gridiron'
   spec.add_dependency 'fridge'
+  spec.add_dependency 'draper'
+  spec.add_dependency 'garner'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'aptible-tasks'

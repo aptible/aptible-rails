@@ -8,7 +8,7 @@ module Aptible
 
       included do
         helper_method :current_user, :current_organization, :user_url,
-                      :organization_url
+                      :organization_url, :criterion_by_handle
       end
 
       def current_user
@@ -95,6 +95,14 @@ module Aptible
 
       def user_url(id = current_user.id)
         "#{dashboard_url}/users/#{id}"
+      end
+
+      def criterion_by_handle(handle)
+        Aptible::Gridiron::Criterion.where(
+          handle: handle.to_s,
+          token: service_token,
+          organization: current_organization
+        ).first
       end
     end
   end
