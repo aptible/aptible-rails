@@ -1,5 +1,6 @@
 require 'aptible/auth'
 require 'aptible/api'
+require 'aptible/gridiron'
 
 module Aptible
   module Rails
