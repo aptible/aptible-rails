@@ -5,3 +5,5 @@ class ApplicationDecorator < Draper::Decorator
 
   delegate_all
 end
+
+require_relative 'criterion_decorator'

@@ -5,7 +5,7 @@ require 'aptible/rails/array_extensions'
 require 'aptible/rails/draper_extensions'
 
 require 'draper'
-Dir[File.expand_path('../decorators/*.rb', __FILE__)].each { |f| require f }
+require 'aptible/rails/decorators/application_decorator'
 
 module Aptible
   module Rails
