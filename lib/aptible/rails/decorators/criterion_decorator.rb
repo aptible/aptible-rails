@@ -21,7 +21,7 @@ class CriterionDecorator < ApplicationDecorator
     if current_document
       "Updated #{h.time_ago_in_words(current_document.created_at)} ago"
     else
-      "Never updated"
+      'Never updated'
     end
   end
 
