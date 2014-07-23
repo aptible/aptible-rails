@@ -9,7 +9,7 @@ module Aptible
 
       included do
         helper_method :current_user, :current_organization, :user_url,
-                      :organization_url, :criterion_by_handle
+                      :organization_url, :criterion_by_handle, :auth_url
       end
 
       def current_user
@@ -104,6 +104,12 @@ module Aptible
           token: service_token,
           organization: current_organization
         ).first
+      end
+
+      def auth_url(path = '/', params = {})
+        uri = URI.join(Aptible::Auth.configuration.root_url, path)
+        uri.query = params.to_query if params
+        uri.to_s
       end
     end
   end
