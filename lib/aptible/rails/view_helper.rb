@@ -10,16 +10,21 @@ module Aptible
         "https://secure.gravatar.com/avatar/#{digest}?s=#{size}"
       end
 
-      def auth_url(path = '/')
-        URI.join Aptible::Auth.configuration.root_url, path
-      end
-
       def controller?(*controller)
         controller.include?(params[:controller])
       end
 
       def action?(*action)
         action.include?(params[:action])
+      end
+
+      def verification_code_reset_url
+        callback = "#{dashboard_url}/callback?type=verification_code_reset"
+        auth_url(
+          '/reset',
+          type: 'verification_code',
+          redirect_uri: callback
+        )
       end
     end
   end
