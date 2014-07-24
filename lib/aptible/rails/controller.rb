@@ -45,6 +45,14 @@ module Aptible
         redirect_to aptible_login_url unless service_token
       end
 
+      # before_action :ensure_compliance_plan
+      def ensure_compliance_plan
+        unless current_organization &&
+               current_organization.can_manage_compliance?
+          redirect_to compliance_url
+        end
+      end
+
       # before_action :ensure_auth_key
       def ensure_auth_key
         return if Fridge.configuration.public_key
