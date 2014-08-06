@@ -3,6 +3,7 @@ require 'aptible/rails/url_helper'
 require 'aptible/rails/view_helper'
 require 'aptible/rails/array_extensions'
 require 'aptible/rails/draper_extensions'
+require 'aptible/rails/garner'
 
 require 'draper'
 require 'aptible/rails/decorators/application_decorator'
