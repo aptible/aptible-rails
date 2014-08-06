@@ -4,6 +4,10 @@ class ApplicationDecorator < Draper::Decorator
   include Garner::Cache::Context
 
   delegate_all
+
+  def pretty_errors
+    "Some fields had errors: #{object.errors.full_messages.join(', ')}."
+  end
 end
 
 require_relative 'resource_decorator'
