@@ -1,0 +1,2 @@
+class DatabaseDecorator < ResourceDecorator
+end
