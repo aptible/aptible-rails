@@ -28,16 +28,15 @@ module Aptible
       end
 
       def return_to_context_url(local_assigns)
-        href = if controller?('apps')
-                 apps_url
-               elsif controller?('databases')
-                 databases_url
-               elsif local_assigns[:compliance_page]
-                 compliance_url
-               else
-                 dashboard_url
-               end
-        URI href
+        URI(if controller?('apps')
+              apps_url
+            elsif controller?('databases')
+              databases_url
+            elsif local_assigns[:compliance_page] || controller?('compliance')
+              compliance_url
+            else
+              dashboard_url
+            end)
       end
     end
   end
