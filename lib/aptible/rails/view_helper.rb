@@ -30,6 +30,10 @@ module Aptible
       def return_to_context_url(local_assigns)
         if controller?('organizations')
           root_url
+        elsif controller?('apps')
+          apps_url
+        elsif controller?('databases')
+          databases_url
         elsif local_assigns[:compliance_page]
           compliance_url
         else
