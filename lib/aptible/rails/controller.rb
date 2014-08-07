@@ -22,17 +22,25 @@ module Aptible
       end
 
       def current_organization
-        session[:organization_url] ||= Aptible::Auth::Organization.all(
-          token: session_token
-        ).first.href
-        url = [session[:organization_url], token: service_token]
-        @current_organization ||= Aptible::Auth::Organization.find_by_url(*url)
-      rescue
-        nil
+        return @current_organization if @current_organization
+        url = read_shared_cookie(:organization_url)
+        @current_organization = Aptible::Auth::Organization.find_by_url(
+          url, token: session_token
+        ) if url
+      end
+
+      def current_organization=(organization)
+        write_shared_cookie(:organization_url, organization.href)
       end
 
       def current_user_url
         token_subject || session_subject
+      end
+
+      # before_action :set_default_organization
+      def set_default_organization
+        self.current_organization ||=
+          Aptible::Auth::Organization.all(token: session_token).first
       end
 
       # before_action :authenticate_user
