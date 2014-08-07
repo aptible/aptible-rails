@@ -26,6 +26,16 @@ module Aptible
           redirect_uri: callback
         )
       end
+
+      def return_to_context_url(local_assigns)
+        if controller?('organizations')
+          root_url
+        elsif local_assigns[:compliance_page]
+          compliance_url
+        else
+          'current_url'
+        end
+      end
     end
   end
 end
