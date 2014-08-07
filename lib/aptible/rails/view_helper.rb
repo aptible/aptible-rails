@@ -35,7 +35,7 @@ module Aptible
                elsif local_assigns[:compliance_page]
                  compliance_url
                else
-                 root_url
+                 dashboard_root_url
                end
         URI href
       end
