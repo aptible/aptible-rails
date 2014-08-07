@@ -26,6 +26,19 @@ module Aptible
           redirect_uri: callback
         )
       end
+
+      def return_to_context_url(local_assigns)
+        href = if controller?('apps')
+                 apps_url
+               elsif controller?('databases')
+                 databases_url
+               elsif local_assigns[:compliance_page]
+                 compliance_url
+               else
+                 dashboard_url
+               end
+        URI href
+      end
     end
   end
 end
