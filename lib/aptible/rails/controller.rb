@@ -39,7 +39,7 @@ module Aptible
 
       # before_action :set_default_organization
       def set_default_organization
-        return self.current_organization if current_organization
+        return current_organization if current_organization
         orgs = Aptible::Auth::Organization.all(token: session_token)
         self.current_organization = orgs.first if orgs.any?
       end
