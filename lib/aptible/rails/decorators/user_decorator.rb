@@ -1,4 +1,10 @@
 class UserDecorator < ApplicationDecorator
+  def can?(scope, account)
+    return true if object.can_manage?(account.organization)
+    user_scopes = account_permissions(account).map(&:scope)
+    user_scopes.include?('manage') || user_scopes.include?(scope)
+  end
+
   def cached_organizations
     garner.bind(h.controller.session_token) do
       object.organizations
@@ -8,6 +14,28 @@ class UserDecorator < ApplicationDecorator
   def organization_count
     garner.bind(h.controller.session_token) do
       object.organizations.count
+    end
+  end
+
+  def cached_roles
+    garner.bind(h.controller.session_token) do
+      object.roles
+    end
+  end
+
+  def cached_permissions
+    #garner.bind(h.controller.session_token) do
+      permissions = []
+      cached_roles.each do |role|
+        permissions += role.permissions
+      end
+      permissions
+    #end
+  end
+
+  def account_permissions(account)
+    cached_permissions.select do |permission|
+      permission.links[:account].href == account.href
     end
   end
 
