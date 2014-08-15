@@ -24,13 +24,13 @@ class UserDecorator < ApplicationDecorator
   end
 
   def cached_permissions
-    #garner.bind(h.controller.session_token) do
+    garner.bind(h.controller.session_token) do
       permissions = []
       cached_roles.each do |role|
         permissions += role.permissions
       end
       permissions
-    #end
+    end
   end
 
   def account_permissions(account)

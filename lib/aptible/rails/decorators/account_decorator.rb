@@ -9,7 +9,9 @@ class AccountDecorator < ApplicationDecorator
     end
   end
 
+  # rubocop:disable PredicateName
   def has_scope?(scope)
     cached_permissions.map(&:scope).include? scope
   end
+  # rubocop:enable PredicateName
 end
