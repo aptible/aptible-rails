@@ -3,6 +3,8 @@ module Aptible
     class CacheContext
       include Garner::Cache::Binding
 
+      attr_writer :current_organization, :current_session
+
       def initialize(organization, session)
         self.current_organization = organization
         self.current_session = session
@@ -12,16 +14,8 @@ module Aptible
         "organization=#{current_organization_id}&session=#{current_session_id}"
       end
 
-      def current_organization=(organization)
-        @current_organization = organization
-      end
-
       def current_organization_id
         @current_organization.id || ''
-      end
-
-      def current_session=(session_token)
-        @current_session = session_token
       end
 
       def current_session_id
