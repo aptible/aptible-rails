@@ -11,15 +11,8 @@ module Aptible
       end
 
       def cache_key
-        "organization=#{current_organization_id}&session=#{current_session_id}"
-      end
-
-      def current_organization_id
-        @current_organization.id || ''
-      end
-
-      def current_session_id
-        @current_session.id || ''
+        "organization=#{@current_organization.id}&
+        session=#{@current_session.id}"
       end
     end
   end
