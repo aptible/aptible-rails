@@ -9,12 +9,10 @@ module Aptible
       end
 
       def cache_key
-        puts current_organization_id
-        "#ORG:#{current_organization_id}#SESSION:#{current_session_id}"
+        "organization=#{current_organization_id}&session=#{current_session_id}"
       end
 
       def current_organization=(organization)
-        puts "define current org #{organization.id}"
         @current_organization = organization
       end
 
@@ -23,7 +21,6 @@ module Aptible
       end
 
       def current_session=(session_token)
-        puts "define current session #{session_token.id}"
         @current_session = session_token
       end
 
