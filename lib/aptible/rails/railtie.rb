@@ -4,6 +4,7 @@ require 'aptible/rails/view_helper'
 require 'aptible/rails/array_extensions'
 require 'aptible/rails/draper_extensions'
 require 'aptible/rails/garner'
+require 'aptible/rails/cache_context'
 
 require 'draper'
 require 'aptible/rails/decorators/application_decorator'

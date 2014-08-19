@@ -12,6 +12,10 @@ module Aptible
                       :organization_url, :criterion_by_handle, :auth_url
       end
 
+      def cache_context
+        @cache_context ||= CacheContext.new(current_organization, session_token)
+      end
+
       def current_user
         return unless current_user_url
         @current_user ||= Aptible::Auth::User.find_by_url(current_user_url,
@@ -24,13 +28,18 @@ module Aptible
       def current_organization
         return @current_organization if @current_organization
         url = read_shared_cookie(:organization_url)
-        @current_organization = Aptible::Auth::Organization.find_by_url(
-          url, token: session_token
-        ) if url
+        if url
+          @current_organization = Aptible::Auth::Organization.find_by_url(
+            url, token: session_token
+          )
+          cache_context.current_organization = @current_organization
+          @current_organization
+        end
       end
 
       def current_organization=(organization)
         write_shared_cookie(:organization_url, organization.href)
+        cache_context.current_organization = organization
       end
 
       def current_user_url
