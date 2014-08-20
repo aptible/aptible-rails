@@ -1,7 +1,7 @@
 require 'garner'
 
 Garner.configure do |config|
-  config.global_cache_options = { expires_in: 10.minutes }
+  config.expires_in = 10.minutes
   config.binding_key_strategy = Garner::Strategies::Binding::Key::CacheKey
   config.whiny_nils = false
 end

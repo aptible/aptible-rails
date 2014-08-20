@@ -6,15 +6,15 @@ class UserDecorator < ApplicationDecorator
   end
 
   def cached_organizations
-    garner.bind(h.controller.session_token) do
-      object.organizations
-    end
+    garner
+      .bind(h.controller.session_token)
+      .bind(h.controller.current_organization) do
+        object.organizations
+      end
   end
 
   def organization_count
-    garner.bind(h.controller.session_token) do
-      object.organizations.count
-    end
+    cached_organizations.count
   end
 
   def cached_roles
