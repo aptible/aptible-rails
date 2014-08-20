@@ -2,7 +2,7 @@
 class ResourceDecorator < ApplicationDecorator
   def last_operation_gravatar
     garner.bind(h.controller.session_token).bind(object) do
-      last_operation.decorate.gravatar
+      last_operation.decorate.creator_gravatar
     end
   end
 
