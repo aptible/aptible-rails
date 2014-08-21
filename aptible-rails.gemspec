@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'gem_config'
-  spec.add_dependency 'aptible-auth', '>= 0.5.0'
-  spec.add_dependency 'aptible-api', '>= 0.5.0'
+  spec.add_dependency 'aptible-auth', '>= 0.7.0'
+  spec.add_dependency 'aptible-api', '>= 0.7.0'
   spec.add_dependency 'aptible-gridiron'
   spec.add_dependency 'fridge', '>= 0.2.3'
   spec.add_dependency 'draper'
