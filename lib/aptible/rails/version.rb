@@ -1,5 +1,5 @@
 module Aptible
   module Rails
-    VERSION = '0.4.12'
+    VERSION = '0.5.0'
   end
 end
