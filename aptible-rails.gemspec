@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'aptible-api', '>= 0.7.0'
   spec.add_dependency 'aptible-gridiron'
   spec.add_dependency 'fridge', '>= 0.2.3'
-  spec.add_dependency 'draper'
+  spec.add_dependency 'draper', '>= 1.3.0'
   spec.add_dependency 'garner'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
