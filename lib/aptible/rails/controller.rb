@@ -27,6 +27,9 @@ module Aptible
         @current_organization = Aptible::Auth::Organization.find_by_url(
           url, token: session_token
         ) if url
+      rescue HyperResource::ClientError => e
+        raise e unless e.body['code'] == 403
+        set_default_organization
       end
 
       def current_organization=(organization)
