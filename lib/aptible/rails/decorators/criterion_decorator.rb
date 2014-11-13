@@ -45,6 +45,6 @@ class CriterionDecorator < ApplicationDecorator
   end
 
   def current_document
-    documents.first
+    documents.last
   end
 end
