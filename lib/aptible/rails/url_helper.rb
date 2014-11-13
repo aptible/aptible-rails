@@ -12,7 +12,7 @@ module Aptible
         def self.aptible_config
           Aptible::Rails.configuration
         end
-
+        # rubocop:disable MultilineOperationIndentation
         register_url :about_url,
                      aptible_config.marketing_root_url + '/about'
         register_url :apps_url,
@@ -54,6 +54,7 @@ module Aptible
                      aptible_config.compliance_root_url + '/training'
         register_url :status_url, 'http://status.aptible.com/'
         register_url :support_url, 'https://support.aptible.com'
+        # rubocop:enable MultilineOperationIndentation
       end
     end
   end
