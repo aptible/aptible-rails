@@ -9,7 +9,9 @@ module Aptible
 
       included do
         helper_method :current_user, :current_organization, :user_url,
-                      :organization_url, :criterion_by_handle, :auth_url
+                      :organization_url, :criterion_by_handle, :auth_url,
+                      :risk_criterion, :policy_criterion, :security_criterion,
+                      :training_criterion, :url_helpers
       end
 
       def current_user
@@ -130,6 +132,34 @@ module Aptible
         uri = URI.join(Aptible::Auth.configuration.root_url, path)
         uri.query = params.to_query if params
         uri.to_s
+      end
+
+      def risk_criterion
+        @risk_criterion ||=
+        criterion_by_handle(:risk_assessment).decorate
+      end
+
+      def security_criterion
+        @security_criterion ||=
+        criterion_by_handle(:app_security_interview).decorate
+      end
+
+      def policy_criterion
+        @policy_criterion ||= criterion_by_handle(:policy_manual).decorate
+      end
+
+      def training_criterion
+        @training_criterion ||= criterion_by_handle('training_log').decorate
+      end
+
+      def bootstrap_backbone
+        return unless current_user
+
+        gon.current_user = current_user.attributes
+        gon.security_officer = current_organization.security_officer.attributes
+        gon.current_organization = current_organization.attributes
+        organization_users = current_organization.users
+        gon.current_organization_users = organization_users.map(&:attributes)
       end
     end
   end
