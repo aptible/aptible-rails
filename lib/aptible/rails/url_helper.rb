@@ -32,8 +32,8 @@ module Aptible
                      aptible_config.dashboard_root_url + '/organization'
         register_url :edit_user_url,
                      aptible_config.dashboard_root_url + '/settings'
-        register_url :enterprise_url,
-                     aptible_config.marketing_root_url + '/enterprise'
+        register_url :incidents_url,
+                     aptible_config.compliance_root_url + '/incidents'
         register_url :legal_url, aptible_config.marketing_root_url + '/legal'
         register_url :logout_url, aptible_config.dashboard_root_url + '/logout'
         register_url :marketing_url, aptible_config.marketing_root_url
