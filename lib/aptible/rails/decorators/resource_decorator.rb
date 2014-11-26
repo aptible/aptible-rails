@@ -14,7 +14,7 @@ class ResourceDecorator < ApplicationDecorator
   end
 
   def last_operation
-    object.operations.first
+    object.operations.last
   end
 
   def operation_count
