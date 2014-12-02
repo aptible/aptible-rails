@@ -44,9 +44,13 @@ module Aptible
 
       # before_action :set_default_organization
       def set_default_organization
-        return current_organization if current_organization
+        return @current_organization if @current_organization
         orgs = Aptible::Auth::Organization.all(token: session_token)
         self.current_organization = orgs.first if orgs.any?
+      end
+
+      def clear_current_organization
+        delete_shared_cookie(:organization_url)
       end
 
       # before_action :authenticate_user
