@@ -79,6 +79,17 @@ module Aptible
         end
       end
 
+      # before_action :set_alerts
+      def set_alerts
+        @criteria = Aptible::Gridiron::Criterion.where(
+          token: service_token,
+          organization: current_organization
+        )
+        @apps = Aptible::Api::App.all(token: service_token)
+        @users = current_organization.users
+        @alerts = ComplianceAlertCollection.new(@criteria, @apps, @users).all
+      end
+
       def service_token
         return unless session_token && session_token.session
         return @service_token if @service_token
