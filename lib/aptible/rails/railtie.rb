@@ -8,6 +8,10 @@ require 'aptible/rails/garner'
 require 'draper'
 require 'aptible/rails/decorators/application_decorator'
 
+Dir["#{File.dirname(__FILE__)}/models/**/*.rb"].each do |file|
+  require file
+end
+
 module Aptible
   module Rails
     class Railtie < ::Rails::Railtie

@@ -11,7 +11,8 @@ module Aptible
         helper_method :current_user, :current_organization, :user_url,
                       :organization_url, :criterion_by_handle, :auth_url,
                       :risk_criterion, :policy_criterion, :security_criterion,
-                      :training_criterion, :url_helpers
+                      :training_criterion, :url_helpers, :compliance_alerts,
+                      :criteria
       end
 
       def current_user
@@ -77,6 +78,22 @@ module Aptible
         Fridge.configure do |config|
           config.public_key = Aptible::Auth.public_key unless ::Rails.env.test?
         end
+      end
+
+      def criteria
+        @criteria ||= Aptible::Gridiron::Criterion.where(
+          token: service_token,
+          organization: current_organization
+        )
+      end
+
+      def compliance_alerts
+        return @compliance_alerts if @compliance_alerts
+        @apps = Aptible::Api::App.all(token: service_token)
+        @users = current_organization.users
+        @compliance_alerts = ComplianceAlertCollection.new(
+                               @criteria, @apps, @users
+                             ).all
       end
 
       def service_token
