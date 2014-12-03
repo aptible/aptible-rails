@@ -7,9 +7,8 @@ class ComplianceAlertCollection
 
   def all
     context = { users: @users, apps: @apps }
-    @criteria.reduce([]) do |memo, criterion|
-      criterion = CriterionAlertDecorator.decorate(criterion, context: context)
-      memo + (criterion.alerts || [])
-    end
+    @criteria.map do |criterion|
+      CriterionAlertDecorator.decorate(criterion, context: context).alerts || []
+    end.flatten
   end
 end
