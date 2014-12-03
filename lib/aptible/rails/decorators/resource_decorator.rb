@@ -14,6 +14,7 @@ class ResourceDecorator < ApplicationDecorator
   end
 
   def last_operation
-    OperationDecorator.decorate(object.last_operation) if object.last_operation
+    return nil unless object.last_operation
+    @last_operation ||= OperationDecorator.decorate(object.last_operation)
   end
 end
