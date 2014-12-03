@@ -92,7 +92,7 @@ module Aptible
         @apps = Aptible::Api::App.all(token: service_token)
         @users = current_organization.users
         @compliance_alerts = ComplianceAlertCollection.new(
-                               @criteria, @apps, @users
+                               criteria, @apps, @users
                              ).all
       end
 
