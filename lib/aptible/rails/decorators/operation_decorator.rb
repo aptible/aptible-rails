@@ -2,7 +2,7 @@ class OperationDecorator < ApplicationDecorator
   # TODO: cleanup after manual migration of user data to operations
 
   def past_tense
-    object.type.humanize + (type[-1] == 'e' ? 'd' : 'ed')
+    object.type.humanize + (object.type[-1] == 'e' ? 'd' : 'ed')
   end
 
   def creator_gravatar
