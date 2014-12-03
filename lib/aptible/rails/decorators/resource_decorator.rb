@@ -2,24 +2,18 @@
 class ResourceDecorator < ApplicationDecorator
   def last_operation_gravatar
     garner.bind(h.controller.session_token).bind(object) do
-      last_operation.decorate.creator_gravatar
+      last_operation.creator_gravatar
     end
   end
 
   def last_operation_summary
     garner.bind(h.controller.session_token).bind(object) do
-      "#{last_operation.decorate.past_tense} " \
+      "#{last_operation.past_tense} " \
       "#{h.time_ago_in_words(last_operation.created_at)} ago"
     end
   end
 
   def last_operation
-    object.operations.last
-  end
-
-  def operation_count
-    garner.bind(h.controller.session_token).bind(object) do
-      object.operations.count
-    end
+    OperationDecorator.decorate(object.last_operation) if object.last_operation
   end
 end
