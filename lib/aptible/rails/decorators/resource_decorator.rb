@@ -17,4 +17,10 @@ class ResourceDecorator < ApplicationDecorator
     return nil unless object.last_operation
     @last_operation ||= OperationDecorator.decorate(object.last_operation)
   end
+
+  def operation_count
+    garner.bind(h.controller.session_token).bind(object) do
+      object.operations.count
+    end
+  end
 end
