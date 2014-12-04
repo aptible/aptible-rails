@@ -28,11 +28,12 @@ module Aptible
         return @current_organization if @current_organization
         url = read_shared_cookie(:organization_url)
         @current_organization = Aptible::Auth::Organization.find_by_url(
-          url, token: session_token
-        ) if url
+                                url, token: session_token) if url
+        @current_organization ||= default_organization
+
       rescue HyperResource::ClientError => e
         raise e unless e.body['code'] == 403
-        set_default_organization
+        @current_organization = default_organization
       end
 
       def current_organization=(organization)
@@ -43,8 +44,7 @@ module Aptible
         token_subject || session_subject
       end
 
-      # before_action :set_default_organization
-      def set_default_organization
+      def default_organization
         return @current_organization if @current_organization
         orgs = Aptible::Auth::Organization.all(token: session_token)
         self.current_organization = orgs.first if orgs.any?
