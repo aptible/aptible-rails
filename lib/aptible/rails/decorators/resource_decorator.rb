@@ -14,8 +14,15 @@ class ResourceDecorator < ApplicationDecorator
   end
 
   def last_operation
-    return nil unless object.last_operation
-    @last_operation ||= OperationDecorator.decorate(object.last_operation)
+    return @last_operation if @last_operation
+    if object.respond_to?(:last_operation)
+      operation = object.last_operation
+    else
+      operation = object.operations.last
+    end
+
+    return nil unless operation
+    @last_operation = OperationDecorator.decorate(operation)
   end
 
   def operation_count
