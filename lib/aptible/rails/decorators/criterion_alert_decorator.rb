@@ -19,23 +19,23 @@ class CriterionAlertDecorator < Draper::Decorator
   end
 
   def app_security_interview_alerts
-    all_apps.reduce([]) do |memo, app|
-      next if completed_apps.any? { |href| href == app.href }
+    all_apps.map do |app|
+      next [] if completed_apps.any? { |href| href == app.href }
       app_path = Aptible::Security::Engine.routes.url_helpers
                  .app_path(id: app.id)
-      memo + [Alert.new(subject: app.handle, subject_href: app_path,
-                        requirement: 'needs an App Security Interview',
-                        cta: 'Complete App Security Interview')]
+      [Alert.new(subject: app.handle, subject_href: app_path,
+                 requirement: 'needs an App Security Interview',
+                 cta: 'Complete App Security Interview')]
     end
   end
 
   def training_log_alerts
-    all_users.reduce([]) do |memo, user|
-      next if completed_users.any? { |href| href == user.href }
+    all_users.map do |user|
+      next [] if completed_users.any? { |href| href == user.href }
       user_path = Aptible::Training::Engine.routes.url_helpers.root_path
-      memo + [Alert.new(subject: user.name, subject_href: user_path,
-                        requirement: 'needs Basic HIPAA Training',
-                        cta: 'Complete Training')]
+      [Alert.new(subject: user.name, subject_href: user_path,
+                 requirement: 'needs Basic HIPAA Training',
+                 cta: 'Complete Training')]
     end
   end
 
