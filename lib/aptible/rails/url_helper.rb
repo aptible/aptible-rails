@@ -28,6 +28,8 @@ module Aptible
                      aptible_config.dashboard_root_url + '/session'
         register_url :databases_url,
                      aptible_config.dashboard_root_url + '/databases'
+        register_url :dashboard_apps_url,
+                     aptible_config.dashboard_root_url + '/apps'
         register_url :edit_organization_url,
                      aptible_config.dashboard_root_url + '/organization'
         register_url :edit_user_url,
