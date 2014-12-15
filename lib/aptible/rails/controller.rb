@@ -41,7 +41,14 @@ module Aptible
       end
 
       def production_apps
-        @production_apps ||= Aptible::Api::App.all(token: service_token)
+        return @production_apps if @production_apps
+        accounts = Aptible::Api::Account.all(token: service_token)
+        accounts = accounts.select do |account|
+          next unless account.type == 'production'
+          next unless account.organization == current_organization
+          true
+        end
+        accounts.map(&:apps).flatten.compact
       end
 
       def current_organization=(organization)
