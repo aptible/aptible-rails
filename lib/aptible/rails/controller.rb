@@ -12,7 +12,7 @@ module Aptible
                       :organization_url, :criterion_by_handle, :auth_url,
                       :risk_criterion, :policy_criterion, :security_criterion,
                       :training_criterion, :url_helpers, :compliance_alerts,
-                      :criteria
+                      :criteria, :organization_users, :production_apps
       end
 
       def current_user
@@ -34,6 +34,14 @@ module Aptible
       rescue HyperResource::ClientError => e
         raise e unless e.body['code'] == 403
         @current_organization = default_organization
+      end
+
+      def organization_users
+        @organization_users ||= current_organization.users
+      end
+
+      def production_apps
+        @production_apps ||= Aptible::Api::App.all(token: service_token)
       end
 
       def current_organization=(organization)
@@ -89,10 +97,8 @@ module Aptible
 
       def compliance_alerts
         return @compliance_alerts if @compliance_alerts
-        @apps = Aptible::Api::App.all(token: service_token)
-        @users = current_organization.users
         @compliance_alerts = ComplianceAlertCollection.new(
-                               criteria, @apps, @users
+                               criteria, production_apps, organization_users
                              ).all
       end
 
