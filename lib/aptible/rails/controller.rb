@@ -42,7 +42,7 @@ module Aptible
 
       def production_apps
         return @production_apps if @production_apps
-        accounts = Aptible::Api::Account.all(token: service_token)
+        accounts = Aptible::Api::Account.all(token: session_token)
         accounts = accounts.select do |account|
           next unless account.type == 'production'
           next unless account.organization == current_organization
@@ -74,11 +74,6 @@ module Aptible
         redirect_to Aptible::Rails.configuration.login_url unless current_user
       end
 
-      # before_action :ensure_service_token
-      def ensure_service_token
-        redirect_to aptible_login_url unless service_token
-      end
-
       # before_action :ensure_compliance_plan
       def ensure_compliance_plan
         unless current_organization &&
@@ -97,7 +92,7 @@ module Aptible
 
       def criteria
         @criteria ||= Aptible::Gridiron::Criterion.where(
-          token: service_token,
+          token: session_token,
           organization: current_organization
         )
       end
@@ -108,43 +103,6 @@ module Aptible
                                criteria, production_apps, organization_users
                              ).all
       end
-
-      def service_token
-        return unless session_token && session_token.session
-        return @service_token if @service_token
-
-        @service_token = cached_service_token(session_token)
-        if Fridge::AccessToken.new(@service_token).valid?
-          @service_token
-        else
-          @service_token = cached_service_token(session_token,
-                                                force: true) || session_token
-        end
-      end
-
-      def cached_service_token(session_token, options = {})
-        fail 'Token must be a service token' unless session_token.session
-        cache_key = "service_token:#{session_token.session}"
-        ::Rails.cache.fetch(cache_key, options) do
-          swap_session_token(session_token)
-        end
-      end
-
-      # rubocop:disable MethodLength
-      def swap_session_token(session_token)
-        Aptible::Auth::Token.create(
-          client_id: Aptible::Rails.configuration.client_id,
-          client_secret: Aptible::Rails.configuration.client_secret,
-          subject: session_token.serialize
-        ).access_token
-      rescue OAuth2::Error => e
-        if e.code == 'unauthorized'
-          nil
-        else
-          raise 'Could not swap session token, check Client#privileged?'
-        end
-      end
-      # rubocop:enable MethodLength
 
       def organization_url(id)
         "#{dashboard_url}/organizations/#{id}"
@@ -157,7 +115,7 @@ module Aptible
       def criterion_by_handle(handle)
         Aptible::Gridiron::Criterion.where(
           handle: handle.to_s,
-          token: service_token,
+          token: session_token,
           organization: current_organization
         ).first
       end
