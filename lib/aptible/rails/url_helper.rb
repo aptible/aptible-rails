@@ -25,7 +25,7 @@ module Aptible
                      aptible_config.marketing_root_url + '/contact'
         register_url :dashboard_url, aptible_config.dashboard_root_url
         register_url :dashboard_session_url,
-                     aptible_config.dashboard_root_url + '/session'
+                     aptible_config.compliance_root_url + '/session'
         register_url :databases_url,
                      aptible_config.dashboard_root_url + '/databases'
         register_url :dashboard_apps_url,
