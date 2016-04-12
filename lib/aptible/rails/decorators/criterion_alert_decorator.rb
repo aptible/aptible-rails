@@ -40,11 +40,15 @@ class CriterionAlertDecorator < Draper::Decorator
   end
 
   def completed_users
-    object.documents.map { |d| d.links['user'].href }.uniq
+    valid_documents.map { |d| d.links['user'].href }.uniq
   end
 
   def completed_apps
-    object.documents.map { |d| d.links['app'].href }.uniq
+    valid_documents.map { |d| d.links['app'].href }.uniq
+  end
+
+  def valid_documents
+    object.documents.select { |d| d.expires_at.nil? || d.expires_at > Time.now }
   end
 
   def all_users
