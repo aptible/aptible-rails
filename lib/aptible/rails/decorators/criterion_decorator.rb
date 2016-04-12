@@ -37,11 +37,15 @@ class CriterionDecorator < ApplicationDecorator
   # rubocop:enable MethodLength
 
   def unique_user_count
-    object.documents.map { |d| d.links['user'].href }.uniq.count
+    valid_documents.map { |d| d.links['user'].href }.uniq.count
   end
 
   def unique_app_count
-    object.documents.map { |d| d.links['app'].href }.uniq.count
+    valid_documents.map { |d| d.links['app'].href }.uniq.count
+  end
+
+  def valid_documents
+    object.documents.select { |d| d.expires_at.nil? || d.expires_at > Time.now }
   end
 
   def current_document
