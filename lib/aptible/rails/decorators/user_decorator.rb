@@ -60,7 +60,7 @@ class UserDecorator < ApplicationDecorator
 
   def training_logs
     training_criterion.documents.select do |doc|
-      doc.links['user'].href == object.href
+      doc.expires_at > Time.now && doc.links['user'].href == object.href
     end
   end
 
