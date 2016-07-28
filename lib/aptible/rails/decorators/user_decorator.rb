@@ -1,13 +1,4 @@
 class UserDecorator < ApplicationDecorator
-  def can?(scope, account)
-    # Attempt to use current_organization context before loading via HTTP
-    organization = context[:current_organization] || account.organization
-
-    return true if object.can_manage?(organization)
-    user_scopes = account_permissions(account).map(&:scope)
-    user_scopes.include?('manage') || user_scopes.include?(scope)
-  end
-
   def cached_organizations
     garner
       .bind(h.controller.session_token)
